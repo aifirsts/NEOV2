@@ -86,7 +86,7 @@
 
         <!-- Events/errors panel -->
         <Expander Grid.Row="2" Header="События и ошибки" IsExpanded="False" MaxHeight="200">
-            <ListBox ItemsSource="{Binding Events}" Style="{StaticResource MonoText}"/>
+            <ListBox ItemsSource="{Binding Events}"/>
         </Expander>
     </Grid>
 </Window>

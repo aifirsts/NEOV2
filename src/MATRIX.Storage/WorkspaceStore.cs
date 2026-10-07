@@ -322,12 +322,12 @@ namespace MATRIX.Storage
                 {
                     nodes.Add(Node.Create(
                         n.GetProperty("id").GetString()!,
-                        Enum.Parse<NodeType>(n.GetProperty("type").GetString()!, true),
+                        SecurityPolicy.ParseEnum<NodeType>(n.GetProperty("type").GetString()!),
                         n.GetProperty("name").GetString()!,
                         n.GetProperty("owner").GetString()!,
                         n.GetProperty("trustZone").GetString()!,
-                        Enum.Parse<Sensitivity>(n.GetProperty("sensitivity").GetString()!, true),
-                        Enum.Parse<Availability>(n.GetProperty("availability").GetString()!, true)));
+                        SecurityPolicy.ParseEnum<Sensitivity>(n.GetProperty("sensitivity").GetString()!),
+                        SecurityPolicy.ParseEnum<Availability>(n.GetProperty("availability").GetString()!)));
                 }
             }
 
@@ -340,8 +340,8 @@ namespace MATRIX.Storage
                         e.GetProperty("id").GetString()!,
                         e.GetProperty("from").GetString()!,
                         e.GetProperty("to").GetString()!,
-                        Enum.Parse<EdgeKind>(e.GetProperty("kind").GetString()!, true),
-                        Enum.Parse<Criticality>(e.GetProperty("criticality").GetString()!, true)));
+                        SecurityPolicy.ParseEnum<EdgeKind>(e.GetProperty("kind").GetString()!),
+                        SecurityPolicy.ParseEnum<Criticality>(e.GetProperty("criticality").GetString()!)));
                 }
             }
 
@@ -388,8 +388,8 @@ namespace MATRIX.Storage
                         t.GetProperty("id").GetString()!,
                         t.GetProperty("projectId").GetString()!,
                         t.GetProperty("title").GetString()!,
-                        Enum.Parse<TaskStatus>(t.GetProperty("status").GetString()!, true),
-                        Enum.Parse<TaskPriority>(t.GetProperty("priority").GetString()!, true),
+                        SecurityPolicy.ParseEnum<TaskStatus>(t.GetProperty("status").GetString()!),
+                        SecurityPolicy.ParseEnum<TaskPriority>(t.GetProperty("priority").GetString()!),
                         deps));
                 }
             }
@@ -406,9 +406,9 @@ namespace MATRIX.Storage
                         c.GetProperty("scope").GetString()!,
                         c.GetProperty("method").GetString()!,
                         c.GetProperty("required").GetBoolean(),
-                        Enum.Parse<Criticality>(c.GetProperty("criticality").GetString()!, true),
+                        SecurityPolicy.ParseEnum<Criticality>(c.GetProperty("criticality").GetString()!),
                         c.GetProperty("ttlSeconds").GetInt32(),
-                        Enum.Parse<ControlApplicability>(c.GetProperty("applicability").GetString()!, true),
+                        SecurityPolicy.ParseEnum<ControlApplicability>(c.GetProperty("applicability").GetString()!),
                         c.GetProperty("rationale").GetString()!));
                 }
             }
@@ -432,8 +432,8 @@ namespace MATRIX.Storage
                         e.GetProperty("operator").GetString()!,
                         DateTimeOffset.Parse(e.GetProperty("observedAt").GetString()!),
                         DateTimeOffset.Parse(e.GetProperty("validUntil").GetString()!),
-                        Enum.Parse<EvidenceResult>(e.GetProperty("result").GetString()!, true),
-                        Enum.Parse<EvidenceProvenance>(e.GetProperty("provenance").GetString()!, true),
+                        SecurityPolicy.ParseEnum<EvidenceResult>(e.GetProperty("result").GetString()!),
+                        SecurityPolicy.ParseEnum<EvidenceProvenance>(e.GetProperty("provenance").GetString()!),
                         e.GetProperty("revoked").GetBoolean(),
                         supersedes));
                 }
@@ -447,10 +447,10 @@ namespace MATRIX.Storage
                     findings.Add(Finding.Create(
                         f.GetProperty("id").GetString()!,
                         f.GetProperty("targetId").GetString()!,
-                        Enum.Parse<FindingSeverity>(f.GetProperty("severity").GetString()!, true),
+                        SecurityPolicy.ParseEnum<FindingSeverity>(f.GetProperty("severity").GetString()!),
                         f.GetProperty("impact").GetString()!,
                         f.GetProperty("remediation").GetString()!,
-                        Enum.Parse<FindingStatus>(f.GetProperty("status").GetString()!, true)));
+                        SecurityPolicy.ParseEnum<FindingStatus>(f.GetProperty("status").GetString()!)));
                 }
             }
 
@@ -528,7 +528,7 @@ namespace MATRIX.Storage
                     ["id"] = e.Id,
                     ["from"] = e.From,
                     ["to"] = e.To,
-                    ["kind"] = e.Kind.ToString().ToLowerInvariant(),
+                    ["kind"] = SecurityPolicy.ToJsonString(e.Kind),
                     ["criticality"] = e.Criticality.ToString().ToUpperInvariant()
                 }).Cast<JsonNode>().ToArray()),
                 ["projects"] = new JsonArray(catalog.Projects.Select(p => new JsonObject
@@ -555,8 +555,8 @@ namespace MATRIX.Storage
                     ["id"] = t.Id,
                     ["projectId"] = t.ProjectId,
                     ["title"] = t.Title,
-                    ["status"] = t.Status.ToString().ToUpperInvariant(),
-                    ["priority"] = t.Priority.ToString().ToUpperInvariant(),
+                    ["status"] = SecurityPolicy.ToJsonString(t.Status).ToUpperInvariant(),
+                    ["priority"] = SecurityPolicy.ToJsonString(t.Priority).ToUpperInvariant(),
                     ["dependencies"] = new JsonArray(t.Dependencies.Select(d => (JsonNode)d).ToArray())
                 }).Cast<JsonNode>().ToArray()),
                 ["controls"] = new JsonArray(state.Controls.Select(c => new JsonObject
@@ -569,7 +569,7 @@ namespace MATRIX.Storage
                     ["required"] = c.Required,
                     ["criticality"] = c.Criticality.ToString().ToUpperInvariant(),
                     ["ttlSeconds"] = c.TtlSeconds,
-                    ["applicability"] = c.Applicability.ToString().ToUpperInvariant(),
+                    ["applicability"] = SecurityPolicy.ToJsonString(c.Applicability).ToUpperInvariant(),
                     ["rationale"] = c.Rationale
                 }).Cast<JsonNode>().ToArray()),
                 ["evidence"] = new JsonArray(state.Evidence.Select(e => new JsonObject
@@ -582,8 +582,8 @@ namespace MATRIX.Storage
                     ["operator"] = e.Operator,
                     ["observedAt"] = e.ObservedAt.ToString("O"),
                     ["validUntil"] = e.ValidUntil.ToString("O"),
-                    ["result"] = e.Result.ToString().ToUpperInvariant(),
-                    ["provenance"] = e.Provenance.ToString().ToUpperInvariant(),
+                    ["result"] = SecurityPolicy.ToJsonString(e.Result).ToUpperInvariant(),
+                    ["provenance"] = SecurityPolicy.ToJsonString(e.Provenance).ToUpperInvariant(),
                     ["revoked"] = e.Revoked,
                     ["supersedes"] = new JsonArray(e.Supersedes.Select(s => (JsonNode)s).ToArray())
                 }).Cast<JsonNode>().ToArray()),
@@ -591,10 +591,10 @@ namespace MATRIX.Storage
                 {
                     ["id"] = f.Id,
                     ["targetId"] = f.TargetId,
-                    ["severity"] = f.Severity.ToString().ToUpperInvariant(),
+                    ["severity"] = SecurityPolicy.ToJsonString(f.Severity).ToUpperInvariant(),
                     ["impact"] = f.Impact,
                     ["remediation"] = f.Remediation,
-                    ["status"] = f.Status.ToString().ToUpperInvariant()
+                    ["status"] = SecurityPolicy.ToJsonString(f.Status).ToUpperInvariant()
                 }).Cast<JsonNode>().ToArray()),
                 ["runbooks"] = new JsonArray(state.Runbooks.Select(r => new JsonObject
                 {

@@ -26,6 +26,52 @@ namespace MATRIX.Core
         /// <summary>Max fraction digits for UTC timestamps.</summary>
         public const int MaxFractionDigits = 7;
 
+        /// <summary>Convert JSON snake_case string to enum value.</summary>
+        public static T ParseEnum<T>(string value) where T : struct, Enum => value switch
+        {
+            "depends_on" => (T)(object)EdgeKind.DependsOn,
+            "connects_to" => (T)(object)EdgeKind.ConnectsTo,
+            "authenticates_with" => (T)(object)EdgeKind.AuthenticatesWith,
+            "hosted_on" => (T)(object)EdgeKind.HostedOn,
+            "deployed_from" => (T)(object)EdgeKind.DeployedFrom,
+            "backs_up" => (T)(object)EdgeKind.BacksUp,
+            "monitors" => (T)(object)EdgeKind.Monitors,
+            "pays_through" => (T)(object)EdgeKind.PaysThrough,
+            "todo" => (T)(object)TaskStatus.Todo,
+            "in_progress" => (T)(object)TaskStatus.InProgress,
+            "blocked" => (T)(object)TaskStatus.Blocked,
+            "done" => (T)(object)TaskStatus.Done,
+            "applicable" => (T)(object)ControlApplicability.Applicable,
+            "not_applicable" => (T)(object)ControlApplicability.NotApplicable,
+            "verified_manual" => (T)(object)EvidenceProvenance.VerifiedManual,
+            "machine" => (T)(object)EvidenceProvenance.Machine,
+            "accepted_risk" => (T)(object)FindingStatus.AcceptedRisk,
+            _ => Enum.Parse<T>(value, ignoreCase: true)
+        };
+
+        /// <summary>Convert enum value to JSON snake_case string.</summary>
+        public static string ToJsonString<T>(T value) where T : struct, Enum => value switch
+        {
+            EdgeKind.DependsOn => "depends_on",
+            EdgeKind.ConnectsTo => "connects_to",
+            EdgeKind.AuthenticatesWith => "authenticates_with",
+            EdgeKind.HostedOn => "hosted_on",
+            EdgeKind.DeployedFrom => "deployed_from",
+            EdgeKind.BacksUp => "backs_up",
+            EdgeKind.Monitors => "monitors",
+            EdgeKind.PaysThrough => "pays_through",
+            TaskStatus.Todo => "todo",
+            TaskStatus.InProgress => "in_progress",
+            TaskStatus.Blocked => "blocked",
+            TaskStatus.Done => "done",
+            ControlApplicability.Applicable => "applicable",
+            ControlApplicability.NotApplicable => "not_applicable",
+            EvidenceProvenance.VerifiedManual => "verified_manual",
+            EvidenceProvenance.Machine => "machine",
+            FindingStatus.AcceptedRisk => "accepted_risk",
+            _ => value.ToString().ToLowerInvariant()
+        };
+
         /// <summary>
         /// Compute the Security status of a Node from its Controls and Evidence.
         /// </summary>

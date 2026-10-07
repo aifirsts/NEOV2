@@ -16,7 +16,7 @@ jobs:
     - name: Restore
       run: dotnet restore MATRIX.sln
     - name: Build
-      run: dotnet build MATRIX.sln --configuration Release --no-restore
+      run: dotnet build MATRIX.sln --configuration Release
     - name: Test
       run: dotnet test MATRIX.sln --configuration Release --no-build
     - name: Python Tests
