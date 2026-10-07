@@ -9,5 +9,6 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\MATRIX.Core\MATRIX.Core.csproj" />
+    <ProjectReference Include="..\MATRIX.Application\MATRIX.Application.csproj" />
   </ItemGroup>
 </Project>
