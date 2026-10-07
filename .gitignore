@@ -1,0 +1,22 @@
+# Build output
+bin/
+obj/
+publish/
+MATRIX-FINAL/
+
+# IDE
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Data (never commit runtime data)
+*.localdata
+generations/
+backups/
+.lease

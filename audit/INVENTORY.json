@@ -1,0 +1,40 @@
+{
+  "generatedAt": "2026-10-07T16:35:00Z",
+  "projects": [
+    "MATRIX.Core",
+    "MATRIX.Application",
+    "MATRIX.Storage",
+    "MATRIX.Import",
+    "MATRIX.App"
+  ],
+  "testProjects": [
+    "MATRIX.Core.Tests",
+    "MATRIX.Application.Tests",
+    "MATRIX.Storage.Tests",
+    "MATRIX.Import.Tests",
+    "MATRIX.App.Tests",
+    "MATRIX.Integration.Tests",
+    "MATRIX.Release.Tools.Tests"
+  ],
+  "schemas": [
+    "matrix-workspace-v1.schema.json",
+    "execution-status.schema.json",
+    "release-evidence.schema.json"
+  ],
+  "fixtures": [
+    "empty-workspace.json",
+    "sample-workspace.json"
+  ],
+  "scripts": [
+    "build-test.ps1",
+    "publish.ps1",
+    "package.ps1",
+    "verify-artifacts.ps1"
+  ],
+  "ciWorkflows": [
+    "build-test.yml",
+    "release-candidate.yml"
+  ],
+  "pythonTests": 49,
+  "status": "V2 source tree complete"
+}

@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>false</UseWPF>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <AssemblyName>MATRIX.Import</AssemblyName>
+    <RootNamespace>MATRIX.Import</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MATRIX.Core\MATRIX.Core.csproj" />
+    <ProjectReference Include="..\MATRIX.Storage\MATRIX.Storage.csproj" />
+  </ItemGroup>
+</Project>

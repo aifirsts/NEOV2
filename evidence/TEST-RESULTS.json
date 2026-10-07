@@ -1,0 +1,11 @@
+{
+  "generatedAt": "2026-10-07T16:34:55Z",
+  "testRunner": "Python 3.14.3",
+  "testFile": "tools/test_matrix_v2.py",
+  "total": 49,
+  "passed": 49,
+  "failed": 0,
+  "skipped": 0,
+  "environment": "Linux sandbox (no .NET SDK)",
+  "note": "Python tests validate JSON schema and domain logic. C# compilation requires Windows."
+}

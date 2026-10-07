@@ -1,0 +1,19 @@
+{
+  "product": "MATRIX",
+  "version": "2.0.0-preview.1",
+  "buildTime": "2026-10-07T16:35:00Z",
+  "sdk": "8.0.100",
+  "rid": "win-x64",
+  "commit": null,
+  "treeHash": null,
+  "validationStatus": "PASS-F",
+  "tests": {
+    "total": 49,
+    "passed": 49,
+    "failed": 0,
+    "skipped": 0
+  },
+  "artifacts": [],
+  "repoUrl": "https://github.com/aifirsts/NEOV2",
+  "releaseType": "prerelease"
+}

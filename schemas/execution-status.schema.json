@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:matrix:execution-status:v1",
+  "title": "MATRIX execution status (V2-G gates)",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "version": { "type": "string" },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "gates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "workflowStatus": { "enum": ["PASS", "PASS-F", "FAIL", "RUNNING"] },
+          "verification": {
+            "type": "object",
+            "properties": {
+              "actualResult": { "enum": ["PASS", "FAIL", "NOT_RUN", "USER_REPORTED", "NOT_APPLICABLE"] },
+              "scope": { "type": "string" },
+              "evidenceRefs": { "type": "array", "items": { "type": "string" } },
+              "environmentLimit": { "type": ["string", "null"] }
+            }
+          },
+          "continueAllowed": { "type": "boolean" }
+        },
+        "required": ["id", "name", "workflowStatus", "verification", "continueAllowed"]
+      }
+    }
+  },
+  "required": ["version", "generatedAt", "gates"]
+}

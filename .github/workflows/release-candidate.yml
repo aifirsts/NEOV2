@@ -1,0 +1,35 @@
+name: Release Candidate
+on:
+  push:
+    tags: [ 'v*' ]
+jobs:
+  release:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+    - name: Build
+      run: dotnet build MATRIX.sln --configuration Release
+    - name: Test
+      run: dotnet test MATRIX.sln --configuration Release
+    - name: Python Tests
+      run: python tools/test_matrix_v2.py
+      shell: bash
+    - name: Publish
+      run: dotnet publish src/MATRIX.App/MATRIX.App.csproj --configuration Release --runtime win-x64 --self-contained -o publish
+    - name: Package
+      run: pwsh scripts/package.ps1 -Version ${{ github.ref_name }}
+    - name: Create Release
+      uses: softprops/action-gh-release@v2
+      with:
+        files: MATRIX-FINAL/**
+        prerelease: true
+        body: |
+          MATRIX V2 Release Candidate
+          Version: ${{ github.ref_name }}
+          Status: Prerelease (source + tests verified, Windows build in CI)

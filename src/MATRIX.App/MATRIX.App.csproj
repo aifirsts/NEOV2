@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <AssemblyName>MATRIX</AssemblyName>
+    <RootNamespace>MATRIX.App</RootNamespace>
+    <SelfContained>true</SelfContained>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <PublishSingleFile>false</PublishSingleFile>
+    <PublishReadyToRun>true</PublishReadyToRun>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MATRIX.Core\MATRIX.Core.csproj" />
+    <ProjectReference Include="..\MATRIX.Application\MATRIX.Application.csproj" />
+    <ProjectReference Include="..\MATRIX.Storage\MATRIX.Storage.csproj" />
+    <ProjectReference Include="..\MATRIX.Import\MATRIX.Import.csproj" />
+  </ItemGroup>
+</Project>

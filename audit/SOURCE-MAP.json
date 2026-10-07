@@ -1,0 +1,34 @@
+{
+  "version": "2.0.0-preview.1",
+  "generatedAt": "2026-10-07T16:35:00Z",
+  "sources": {
+    "FINAL.zip": {
+      "type": "ZIP archive",
+      "files": 475,
+      "usage": "V1 history audit (steps 1-8)"
+    },
+    "FINAL.MD": {
+      "type": "Markdown",
+      "usage": "Technical specification"
+    },
+    "matrix-workspace.schema.json": {
+      "type": "JSON Schema",
+      "usage": "V1 contract"
+    },
+    "Domain.cs (V1)": {
+      "type": "C# scaffold",
+      "lines": 16,
+      "usage": "Base skeleton"
+    }
+  },
+  "newImplementation": [
+    "src/MATRIX.Core/Domain.cs (462 lines)",
+    "src/MATRIX.Core/SecurityPolicy.cs (307 lines)",
+    "src/MATRIX.Application/WorkspaceServices.cs (425 lines)",
+    "src/MATRIX.Storage/WorkspaceStore.cs (632 lines)",
+    "src/MATRIX.Import/ImportExportService.cs (400 lines)",
+    "src/MATRIX.App/MainWindow.xaml",
+    "src/MATRIX.App/ViewModels/MainViewModel.cs",
+    "tools/test_matrix_v2.py (425 lines, 49 tests)"
+  ]
+}

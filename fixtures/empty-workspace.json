@@ -1,0 +1,21 @@
+{
+  "format": "MATRIX_WORKSPACE",
+  "schemaVersion": 1,
+  "exportedAt": "2026-10-07T00:00:00Z",
+  "catalog": {
+    "schemaVersion": 1,
+    "nodes": [],
+    "edges": [],
+    "projects": []
+  },
+  "state": {
+    "schemaVersion": 1,
+    "tasks": [],
+    "controls": [],
+    "evidence": [],
+    "findings": [],
+    "runbooks": [],
+    "auditEvents": [],
+    "userStatements": []
+  }
+}

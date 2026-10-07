@@ -1,0 +1,9 @@
+{
+  "product": "MATRIX",
+  "version": "2.0.0-preview.1",
+  "buildTime": "2026-10-07T16:35:00Z",
+  "sdk": "8.0.100 (target, not available in sandbox)",
+  "rid": "win-x64",
+  "validationStatus": "PASS-F",
+  "note": "Source tree complete. Windows build requires .NET 8 SDK on Windows."
+}

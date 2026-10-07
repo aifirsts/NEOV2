@@ -1,0 +1,31 @@
+name: Build and Test
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+    - name: Restore
+      run: dotnet restore MATRIX.sln
+    - name: Build
+      run: dotnet build MATRIX.sln --configuration Release --no-restore
+    - name: Test
+      run: dotnet test MATRIX.sln --configuration Release --no-build
+    - name: Python Tests
+      run: python tools/test_matrix_v2.py
+      shell: bash
+    - name: Publish
+      run: dotnet publish src/MATRIX.App/MATRIX.App.csproj --configuration Release --runtime win-x64 --self-contained -o publish
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: MATRIX-build
+        path: publish/

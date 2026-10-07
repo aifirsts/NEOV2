@@ -1,0 +1,39 @@
+{
+  "format": "MATRIX_WORKSPACE",
+  "schemaVersion": 1,
+  "exportedAt": "2026-10-07T12:00:00Z",
+  "catalog": {
+    "schemaVersion": 1,
+    "nodes": [
+      { "id": "pc-neo", "type": "device", "name": "ПК NEO", "owner": "NEO", "trustZone": "LOCAL", "sensitivity": "INTERNAL", "availability": "UNKNOWN" },
+      { "id": "matrix", "type": "project", "name": "MATRIX", "owner": "NEO", "trustZone": "LOCAL", "sensitivity": "INTERNAL", "availability": "UNKNOWN" },
+      { "id": "github", "type": "service", "name": "GitHub", "owner": "NEO", "trustZone": "EXTERNAL", "sensitivity": "PUBLIC", "availability": "UP" }
+    ],
+    "edges": [
+      { "id": "edge-1", "from": "matrix", "to": "github", "kind": "depends_on", "criticality": "HIGH" },
+      { "id": "edge-2", "from": "matrix", "to": "pc-neo", "kind": "hosted_on", "criticality": "CRITICAL" }
+    ],
+    "projects": [
+      { "id": "project-matrix", "nodeId": "matrix", "goal": "Локальный центр управления инфраструктурой", "repoUrl": "https://github.com/aifirsts/NEOV2", "stage": "DESIGN", "nextAction": "Implement V2", "milestones": ["Domain", "UI", "Prerelease"] }
+    ]
+  },
+  "state": {
+    "schemaVersion": 1,
+    "tasks": [
+      { "id": "task-1", "projectId": "project-matrix", "title": "Реализация доменных моделей", "status": "DONE", "priority": "HIGH", "dependencies": [] },
+      { "id": "task-2", "projectId": "project-matrix", "title": "Реализация UI", "status": "IN_PROGRESS", "priority": "HIGH", "dependencies": ["task-1"] }
+    ],
+    "controls": [
+      { "id": "ctrl-1", "targetId": "pc-neo", "criterion": "Disk encryption enabled", "scope": "system", "method": "manual", "required": true, "criticality": "HIGH", "ttlSeconds": 86400, "applicability": "APPLICABLE", "rationale": "Local data protection" }
+    ],
+    "evidence": [
+      { "id": "ev-1", "controlId": "ctrl-1", "scope": "system", "source": "manual", "method": "check", "operator": "NEO", "observedAt": "2026-10-07T10:00:00Z", "validUntil": "2026-10-08T10:00:00Z", "result": "PASS", "provenance": "VERIFIED_MANUAL", "revoked": false, "supersedes": [] }
+    ],
+    "findings": [],
+    "runbooks": [
+      { "id": "rb-1", "targetId": "pc-neo", "name": "Backup recovery", "preconditions": "MATRIX installed", "steps": ["Stop MATRIX", "Copy generation snapshot", "Restore CURRENT pointer"], "risk": "Low", "verification": "Check CURRENT pointer" }
+    ],
+    "auditEvents": [],
+    "userStatements": []
+  }
+}

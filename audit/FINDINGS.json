@@ -1,0 +1,67 @@
+{
+  "generatedAt": "2026-10-07T16:35:00Z",
+  "findings": [
+    {
+      "id": "F-001",
+      "severity": "HIGH",
+      "area": "Domain",
+      "description": "V1 Domain.cs was 16-line scaffold",
+      "fix": "Full implementation (462 lines)",
+      "status": "RESOLVED",
+      "testRef": "T01-T06, T22"
+    },
+    {
+      "id": "F-002",
+      "severity": "HIGH",
+      "area": "Security",
+      "description": "No SecurityPolicy in V1",
+      "fix": "ADR-V2-SEC-001 conservative computation",
+      "status": "RESOLVED",
+      "testRef": "T07-T09"
+    },
+    {
+      "id": "F-003",
+      "severity": "HIGH",
+      "area": "Storage",
+      "description": "No storage protocol in V1",
+      "fix": "Generation store with SHA-256, CURRENT, lease",
+      "status": "RESOLVED",
+      "testRef": "T14-T18"
+    },
+    {
+      "id": "F-004",
+      "severity": "MEDIUM",
+      "area": "Import/Export",
+      "description": "No import/export in V1",
+      "fix": "Replace-only import with preview + safe export",
+      "status": "RESOLVED",
+      "testRef": "T10, T12, T13"
+    },
+    {
+      "id": "F-005",
+      "severity": "MEDIUM",
+      "area": "UI",
+      "description": "No WPF UI in V1",
+      "fix": "WPF MVVM UI with tree/graph/card/events",
+      "status": "RESOLVED",
+      "testRef": "T20-T21"
+    },
+    {
+      "id": "F-006",
+      "severity": "LOW",
+      "area": "CI",
+      "description": "No CI in V1",
+      "fix": "build-test.yml + release-candidate.yml",
+      "status": "RESOLVED"
+    },
+    {
+      "id": "F-007",
+      "severity": "PASS-F",
+      "area": "Build",
+      "description": "Windows build not available in Linux sandbox",
+      "fix": "CI workflow configured for windows-latest",
+      "status": "PASS-F",
+      "followUp": "NEO runs dotnet build on Windows"
+    }
+  ]
+}

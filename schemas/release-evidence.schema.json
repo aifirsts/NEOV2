@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:matrix:release-evidence:v1",
+  "title": "MATRIX release evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "product": { "type": "string" },
+    "version": { "type": "string" },
+    "buildTime": { "type": "string", "format": "date-time" },
+    "sdk": { "type": "string" },
+    "rid": { "type": "string" },
+    "commit": { "type": ["string", "null"] },
+    "treeHash": { "type": ["string", "null"] },
+    "validationStatus": { "enum": ["PASS", "PASS-F", "FAIL"] },
+    "tests": {
+      "type": "object",
+      "properties": {
+        "total": { "type": "integer" },
+        "passed": { "type": "integer" },
+        "failed": { "type": "integer" },
+        "skipped": { "type": "integer" }
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "sha256": { "type": "string" },
+          "size": { "type": "integer" }
+        }
+      }
+    }
+  },
+  "required": ["product", "version", "buildTime", "sdk", "rid", "validationStatus"]
+}

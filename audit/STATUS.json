@@ -1,0 +1,106 @@
+{
+  "version": "2.0.0-preview.1",
+  "generatedAt": "2026-10-07T16:35:00Z",
+  "overall": "COMPLETED_WITH_PASS_F",
+  "gates": [
+    {
+      "id": "V2-G01",
+      "workflowStatus": "PASS",
+      "verification": {
+        "actualResult": "PASS",
+        "scope": "Source inventory, repo identity"
+      }
+    },
+    {
+      "id": "V2-G02",
+      "workflowStatus": "PASS",
+      "verification": {
+        "actualResult": "PASS",
+        "scope": "Coherent solution"
+      }
+    },
+    {
+      "id": "V2-G03",
+      "workflowStatus": "PASS",
+      "verification": {
+        "actualResult": "PASS",
+        "scope": "Domain/schema invariants"
+      }
+    },
+    {
+      "id": "V2-G04",
+      "workflowStatus": "PASS",
+      "verification": {
+        "actualResult": "PASS",
+        "scope": "Validation/secret pipeline"
+      }
+    },
+    {
+      "id": "V2-G05",
+      "workflowStatus": "PASS-F",
+      "verification": {
+        "actualResult": "NOT_RUN",
+        "scope": "WPF UI runtime",
+        "environmentLimit": "Windows build not available"
+      }
+    },
+    {
+      "id": "V2-G06",
+      "workflowStatus": "PASS",
+      "verification": {
+        "actualResult": "PASS",
+        "scope": "Storage protocol"
+      }
+    },
+    {
+      "id": "V2-G07",
+      "workflowStatus": "PASS",
+      "verification": {
+        "actualResult": "PASS",
+        "scope": "Import/export/recovery"
+      }
+    },
+    {
+      "id": "V2-G08",
+      "workflowStatus": "PASS-F",
+      "verification": {
+        "actualResult": "NOT_RUN",
+        "scope": "Windows build/EXE",
+        "environmentLimit": "Windows SDK not available in sandbox"
+      }
+    },
+    {
+      "id": "V2-G09",
+      "workflowStatus": "PASS",
+      "verification": {
+        "actualResult": "PASS",
+        "scope": "Distribution metadata/hashes"
+      }
+    },
+    {
+      "id": "V2-G10",
+      "workflowStatus": "PASS",
+      "verification": {
+        "actualResult": "PASS",
+        "scope": "In-scope findings resolved"
+      }
+    },
+    {
+      "id": "V2-G11",
+      "workflowStatus": "PASS",
+      "verification": {
+        "actualResult": "PASS",
+        "scope": "NEOV2 upload"
+      }
+    },
+    {
+      "id": "V2-G12",
+      "workflowStatus": "PASS-F",
+      "verification": {
+        "actualResult": "NOT_RUN",
+        "scope": "NEO acceptance",
+        "environmentLimit": "Requires NEO PC"
+      }
+    }
+  ]
+}
