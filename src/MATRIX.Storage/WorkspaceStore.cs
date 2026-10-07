@@ -90,6 +90,26 @@ namespace MATRIX.Storage
                     }
                     catch { /* retry */ }
                 }
+                else
+                {
+                    // V2.1 FIX: Check for stale lease (older than 5 minutes)
+                    try
+                    {
+                        var content = File.ReadAllText(_leaseFile);
+                        var lines = content.Split('\n');
+                        if (lines.Length >= 2)
+                        {
+                            var leaseTime = DateTimeOffset.Parse(lines[1]);
+                            if (DateTimeOffset.UtcNow - leaseTime > TimeSpan.FromMinutes(5))
+                            {
+                                // Stale lease — safe to remove
+                                File.Delete(_leaseFile);
+                                continue;
+                            }
+                        }
+                    }
+                    catch { /* can't read — try again */ }
+                }
                 Thread.Sleep(100);
             }
             return false;
@@ -161,6 +181,26 @@ namespace MATRIX.Storage
                     return OperationResult<Workspace>.Fail($"Invalid catalog JSON: {catalogError}");
                 if (!TryValidateJson(stateJson, out var stateError))
                     return OperationResult<Workspace>.Fail($"Invalid state JSON: {stateError}");
+
+                // V2.1 FIX: Validate schemaVersion before deserialization
+                using (var catDoc = JsonDocument.Parse(catalogJson))
+                {
+                    if (catDoc.RootElement.TryGetProperty("schemaVersion", out var catVer))
+                    {
+                        var ver = catVer.GetInt32();
+                        if (ver != 1)
+                            return OperationResult<Workspace>.Fail($"Unsupported catalog schemaVersion: {ver}. Expected 1.");
+                    }
+                }
+                using (var stateDoc = JsonDocument.Parse(stateJson))
+                {
+                    if (stateDoc.RootElement.TryGetProperty("schemaVersion", out var stVer))
+                    {
+                        var ver = stVer.GetInt32();
+                        if (ver != 1)
+                            return OperationResult<Workspace>.Fail($"Unsupported state schemaVersion: {ver}. Expected 1.");
+                    }
+                }
 
                 var catalog = DeserializeCatalog(catalogJson);
                 var state = DeserializeState(stateJson);

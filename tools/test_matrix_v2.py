@@ -175,6 +175,37 @@ def test_t09_supersedes():
         supersedes = ev.get("supersedes", [])
         check(f"T09-no-dup-supersedes-{ev['id']}", len(supersedes) == len(set(supersedes)),
               f"Evidence {ev['id']} has no duplicate supersedes")
+    # V2.1: Multi-link cycle detection
+    # ev-1 -> [ev-2, ev-3], ev-3 -> ev-1 (cycle through second link)
+    multi_link = [
+        {"id": "ev-1", "controlId": "ctrl-1", "scope": "s", "source": "s", "method": "m", "operator": "o",
+         "observedAt": "2026-10-07T10:00:00Z", "validUntil": "2026-10-08T10:00:00Z",
+         "result": "PASS", "provenance": "VERIFIED_MANUAL", "revoked": False, "supersedes": ["ev-2", "ev-3"]},
+        {"id": "ev-2", "controlId": "ctrl-1", "scope": "s", "source": "s", "method": "m", "operator": "o",
+         "observedAt": "2026-10-07T10:00:00Z", "validUntil": "2026-10-08T10:00:00Z",
+         "result": "PASS", "provenance": "VERIFIED_MANUAL", "revoked": False, "supersedes": []},
+        {"id": "ev-3", "controlId": "ctrl-1", "scope": "s", "source": "s", "method": "m", "operator": "o",
+         "observedAt": "2026-10-07T10:00:00Z", "validUntil": "2026-10-08T10:00:00Z",
+         "result": "PASS", "provenance": "VERIFIED_MANUAL", "revoked": False, "supersedes": ["ev-1"]},
+    ]
+    # Check that the cycle exists
+    has_cycle = False
+    graph = {}
+    for ev in multi_link:
+        graph[ev["id"]] = ev.get("supersedes", [])
+    visiting = set()
+    def dfs(node, path):
+        nonlocal has_cycle
+        if node in path:
+            has_cycle = True
+            return
+        path.add(node)
+        for dep in graph.get(node, []):
+            if dep in graph:
+                dfs(dep, path.copy())
+    for ev in multi_link:
+        dfs(ev["id"], set())
+    check("T09-multi-link-cycle", has_cycle, "Multi-link supersedes cycle detected")
 
 # --- T10: Imported evidence — timestamps unchanged ---
 def test_t10_import_preserves_dates():

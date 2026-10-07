@@ -27,9 +27,13 @@ jobs:
     - name: Create Release
       uses: softprops/action-gh-release@v2
       with:
-        files: MATRIX-FINAL/**
+        files: |
+          MATRIX-FINAL/MATRIX.exe
+          MATRIX-FINAL/VERSION.json
+          MATRIX-FINAL/SHA256SUMS.txt
         prerelease: true
         body: |
           MATRIX V2 Release Candidate
           Version: ${{ github.ref_name }}
           Status: Prerelease (source + tests verified, Windows build in CI)
+          See: docs/RELEASE-CONTRACT.md

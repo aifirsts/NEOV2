@@ -138,6 +138,7 @@ namespace MATRIX.Core
 
         /// <summary>
         /// Validate that supersedes chains have no cycles or duplicates.
+        /// V2.1 FIX: Follows ALL supersedes links, not just the first.
         /// </summary>
         public static bool ValidateSupersedes(
             IReadOnlyList<Evidence> evidence,
@@ -148,32 +149,39 @@ namespace MATRIX.Core
 
             foreach (var ev in evidence)
             {
+                // DFS through ALL supersedes links, not just the first
+                var stack = new Stack<string>();
                 var seen = new HashSet<string>();
-                var current = ev.Id;
-                while (true)
+                stack.Push(ev.Id);
+
+                while (stack.Count > 0)
                 {
+                    var current = stack.Pop();
                     if (!seen.Add(current))
                     {
                         error = $"Supersedes cycle detected involving evidence '{current}'";
                         return false;
                     }
-                    var supersedes = evidenceById.TryGetValue(current, out var currentEv)
-                        ? currentEv.Supersedes
-                        : null;
-                    if (supersedes == null || supersedes.Count == 0)
-                        break;
-                    // Follow first superseded link for cycle detection
-                    var dupes = supersedes.GroupBy(s => s).Where(g => g.Count() > 1).ToList();
-                    if (dupes.Count > 0)
+                    if (evidenceById.TryGetValue(current, out var currentEv))
                     {
-                        error = $"Duplicate supersedes entries in evidence '{current}': {string.Join(", ", dupes.Select(d => d.Key))}";
-                        return false;
-                    }
-                    current = supersedes[0];
-                    if (!evidenceById.ContainsKey(current))
-                    {
-                        // Dangling supersede reference — allowed in historical audit
-                        break;
+                        var supersedes = currentEv.Supersedes;
+                        if (supersedes != null && supersedes.Count > 0)
+                        {
+                            // Check for duplicate entries within the same evidence
+                            var dupes = supersedes.GroupBy(s => s).Where(g => g.Count() > 1).ToList();
+                            if (dupes.Count > 0)
+                            {
+                                error = $"Duplicate supersedes entries in evidence '{current}': {string.Join(", ", dupes.Select(d => d.Key))}";
+                                return false;
+                            }
+                            // Push ALL superseded links onto the stack
+                            foreach (var s in supersedes)
+                            {
+                                if (evidenceById.ContainsKey(s))
+                                    stack.Push(s);
+                                // Dangling references — allowed in historical audit
+                            }
+                        }
                     }
                 }
             }
@@ -293,23 +301,40 @@ namespace MATRIX.Core
                     throw new ArgumentException($"Task dependency cycle detected involving '{cycleTask}'");
             }
 
-            // Finding/Runbook/UserStatement target references
+            // Finding/Runbook/UserStatement target references and ID uniqueness
+            var findingIds = new HashSet<string>();
             foreach (var finding in state.Findings)
             {
                 if (!nodeIds.Contains(finding.TargetId))
                     throw new ArgumentException($"Finding '{finding.Id}' references missing node '{finding.TargetId}'");
+                if (!findingIds.Add(finding.Id))
+                    throw new ArgumentException($"Duplicate finding ID: {finding.Id}");
             }
 
+            var runbookIds = new HashSet<string>();
             foreach (var runbook in state.Runbooks)
             {
                 if (!nodeIds.Contains(runbook.TargetId))
                     throw new ArgumentException($"Runbook '{runbook.Id}' references missing node '{runbook.TargetId}'");
+                if (!runbookIds.Add(runbook.Id))
+                    throw new ArgumentException($"Duplicate runbook ID: {runbook.Id}");
             }
 
+            var statementIds = new HashSet<string>();
             foreach (var statement in state.UserStatements)
             {
                 if (!nodeIds.Contains(statement.TargetId))
                     throw new ArgumentException($"UserStatement '{statement.Id}' references missing node '{statement.TargetId}'");
+                if (!statementIds.Add(statement.Id))
+                    throw new ArgumentException($"Duplicate user statement ID: {statement.Id}");
+            }
+
+            // AuditEvent ID uniqueness
+            var auditIds = new HashSet<string>();
+            foreach (var audit in state.AuditEvents)
+            {
+                if (!auditIds.Add(audit.Id))
+                    throw new ArgumentException($"Duplicate audit event ID: {audit.Id}");
             }
         }
 

@@ -198,7 +198,9 @@ namespace MATRIX.Core
                 Id = Node.ValidateId(id),
                 NodeId = Node.ValidateId(nodeId),
                 Goal = goal ?? throw new ArgumentException("goal"),
-                RepoUrl = repoUrl,
+                RepoUrl = repoUrl == null || (repoUrl.StartsWith("https://") && repoUrl.Contains("github.com"))
+                    ? repoUrl
+                    : throw new ArgumentException("repoUrl must be HTTPS github.com URL or null"),
                 Stage = string.IsNullOrWhiteSpace(stage) ? throw new ArgumentException("stage") : stage.Trim(),
                 NextAction = nextAction ?? throw new ArgumentException("nextAction"),
                 Milestones = milestones ?? throw new ArgumentException("milestones")

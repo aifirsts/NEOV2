@@ -112,10 +112,8 @@ namespace MATRIX.App.ViewModels
                         Array.Empty<Runbook>(),
                         Array.Empty<AuditEvent>(),
                         Array.Empty<UserStatement>()));
-                // Set directly via reflection for initial load
-                _session.GetType()
-                    .GetField("_current", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
-                    ?.SetValue(_session, empty);
+                // Set via internal method — no reflection
+                _session.SetCurrent(empty);
                 RefreshTree();
             }
         }
@@ -222,8 +220,14 @@ namespace MATRIX.App.ViewModels
                         Sensitivity.Internal,
                         Availability.Unknown);
                     _editor.AddNode(node);
+                    // Get fresh workspace after AddNode — ws is stale
                     ws = _session.GetCurrent();
-                    projectNode = ws.Catalog.Nodes.Last();
+                    projectNode = ws.Catalog.Nodes.FirstOrDefault(n => n.Type == NodeType.Project);
+                    if (projectNode == null)
+                    {
+                        AddEvent("Failed to create project node");
+                        return;
+                    }
                 }
 
                 var project = Project.Create(
