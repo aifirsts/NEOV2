@@ -1,6 +1,5 @@
 using Xunit;
 using MATRIX.Application;
-using MATRIX.Storage;
 using MATRIX.Core;
 
 namespace MATRIX.Application.Tests
