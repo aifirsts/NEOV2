@@ -41,6 +41,8 @@ namespace MATRIX.App.ViewModels
         public ObservableCollection<TreeViewItemVM> TreeRoot { get; } = new();
         public ObservableCollection<string> Events { get; } = new();
 
+        public WorkspaceSession Session => _session;
+
         // Node editor bindings
         public ObservableCollection<string> NodeTypes { get; } = new() { "device", "service", "account", "vps", "project", "agent" };
         public ObservableCollection<string> SensitivityTypes { get; } = new() { "PUBLIC", "INTERNAL", "SENSITIVE" };

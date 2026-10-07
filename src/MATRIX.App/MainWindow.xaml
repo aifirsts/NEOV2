@@ -44,7 +44,7 @@
         <!-- Search bar -->
         <ToolBar Grid.Row="1" Background="White">
             <TextBlock Text="Поиск:" VerticalAlignment="Center" Margin="4,0"/>
-            <TextBox Width="250" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox x:Name="SearchBox" Width="250" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"/>
             <Button Content="✕" Command="{Binding ClearSearchCommand}" Padding="8,2"/>
             <Separator/>
             <TextBlock Text="{Binding TreeCounts}" VerticalAlignment="Center" Margin="8,0" FontFamily="Consolas"/>

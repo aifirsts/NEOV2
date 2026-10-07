@@ -254,7 +254,12 @@ namespace MATRIX.Import
                 throw new JsonException($"Failed to parse workspace: {result.Error}");
 
             // Cleanup temp
-            try { Directory.Delete(tempConfig.DataDirectory, recursive: true); } catch { }
+            try { Directory.Delete(tempConfig.DataDirectory, recursive: true); }
+            catch (Exception ex)
+            {
+                // Non-critical: temp directory cleanup failure
+                System.Diagnostics.Debug.WriteLine($"Temp cleanup warning: {ex.Message}");
+            }
 
             return result.Value!;
         }

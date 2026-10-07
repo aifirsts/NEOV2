@@ -28,7 +28,10 @@ namespace MATRIX.App
                 GraphView.DrawGraph(ws.Catalog.Nodes, ws.Catalog.Edges,
                     _viewModel.SelectedItem?.Entity is MATRIX.Core.Node n ? n.Id : null);
             }
-            catch { /* empty graph is fine */ }
+            catch (Exception ex)
+            {
+                _viewModel.Events.Insert(0, $"[{DateTimeOffset.UtcNow:HH:mm:ss}] Graph error: {ex.Message}");
+            }
         }
 
         private void OnTreeSelectionChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
@@ -52,7 +55,11 @@ namespace MATRIX.App
                     _viewModel.Session.Save();
                     break;
                 case Key.F when (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control:
-                    // Focus search
+                    {
+                        // Focus search box
+                        var tb = FindName("SearchBox") as System.Windows.Controls.TextBox;
+                        tb?.Focus();
+                    }
                     break;
             }
         }
