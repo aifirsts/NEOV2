@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using System.Linq;
 using MATRIX.Application;
 using MATRIX.Storage;
 using MATRIX.Import;
