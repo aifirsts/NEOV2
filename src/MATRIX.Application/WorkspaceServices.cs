@@ -5,7 +5,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using MATRIX.Core;
+
+[assembly: InternalsVisibleTo("MATRIX.App")]
 
 namespace MATRIX.Application
 {
