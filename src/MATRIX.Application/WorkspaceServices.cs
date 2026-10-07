@@ -8,7 +8,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using MATRIX.Core;
 
-[assembly: InternalsVisibleTo("MATRIX.App")]
+[assembly: InternalsVisibleTo("MATRIX")]
 
 namespace MATRIX.Application
 {
