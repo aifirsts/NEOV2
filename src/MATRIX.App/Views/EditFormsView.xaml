@@ -1,0 +1,168 @@
+<!-- V3: Typed edit forms for Node, Project, Task, Control, Evidence, Finding, Runbook, UserStatement -->
+<UserControl x:Class="MATRIX.App.Views.EditFormsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="8">
+        <StackPanel Orientation="Vertical">
+
+            <!-- Node Editor -->
+            <Border Style="{StaticResource CardPanel}" Margin="0,4">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource HeaderText}" Text="Узел (Node)"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource LabelText}" Text="ID:" Margin="0,4,4,2"/>
+                        <TextBox Grid.Row="0" Grid.Column="1" x:Name="NodeId" Margin="0,2" Width="200" HorizontalAlignment="Left"/>
+                        <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource LabelText}" Text="Имя:" Margin="8,4,4,2"/>
+                        <TextBox Grid.Row="0" Grid.Column="3" x:Name="NodeName" Margin="0,2"/>
+                        <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource LabelText}" Text="Тип:" Margin="0,4,4,2"/>
+                        <ComboBox Grid.Row="1" Grid.Column="1" x:Name="NodeTypeCombo" Margin="0,2" Width="120" HorizontalAlignment="Left"
+                                  ItemsSource="{Binding NodeTypes}" SelectedItem="{Binding SelectedNodeType}"/>
+                        <TextBlock Grid.Row="1" Grid.Column="2" Style="{StaticResource LabelText}" Text="Чувствит.:" Margin="8,4,4,2"/>
+                        <ComboBox Grid.Row="1" Grid.Column="3" x:Name="NodeSensitivity" Margin="0,2"
+                                  ItemsSource="{Binding SensitivityTypes}" SelectedItem="{Binding SelectedSensitivity}"/>
+                        <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource LabelText}" Text="Владелец:" Margin="0,4,4,2"/>
+                        <TextBox Grid.Row="2" Grid.Column="1" x:Name="NodeOwner" Margin="0,2" Width="120" HorizontalAlignment="Left"/>
+                        <TextBlock Grid.Row="2" Grid.Column="2" Style="{StaticResource LabelText}" Text="Зона доверия:" Margin="8,4,4,2"/>
+                        <TextBox Grid.Row="2" Grid.Column="3" x:Name="NodeTrustZone" Margin="0,2"/>
+                        <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource LabelText}" Text="Доступность:" Margin="0,4,4,2"/>
+                        <ComboBox Grid.Row="3" Grid.Column="1" x:Name="NodeAvailability" Margin="0,2" Width="120" HorizontalAlignment="Left"
+                                  ItemsSource="{Binding AvailabilityTypes}" SelectedItem="{Binding SelectedAvailability}"/>
+                        <StackPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" Orientation="Horizontal" Margin="0,8,0,0">
+                            <Button Content="Добавить" Command="{Binding AddNodeCommand}" Padding="16,4" Margin="0,0,8,0"/>
+                            <Button Content="Удалить" Command="{Binding DeleteNodeCommand}" Padding="16,4" Margin="0,0,8,0"/>
+                            <TextBlock x:Name="NodeResult" VerticalAlignment="Center" Foreground="DarkGreen"/>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Project Editor -->
+            <Border Style="{StaticResource CardPanel}" Margin="0,4">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource HeaderText}" Text="Проект (Project)"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource LabelText}" Text="ID:" Margin="0,4,4,2"/>
+                        <TextBox Grid.Row="0" Grid.Column="1" x:Name="ProjId" Margin="0,2" Width="200" HorizontalAlignment="Left"/>
+                        <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource LabelText}" Text="Node ID:" Margin="0,4,4,2"/>
+                        <TextBox Grid.Row="1" Grid.Column="1" x:Name="ProjNodeId" Margin="0,2" Width="200" HorizontalAlignment="Left"/>
+                        <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource LabelText}" Text="Цель:" Margin="0,4,4,2"/>
+                        <TextBox Grid.Row="2" Grid.Column="1" x:Name="ProjGoal" Margin="0,2" AcceptsReturn="True" TextWrapping="Wrap" Height="60"/>
+                        <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource LabelText}" Text="Repo URL:" Margin="0,4,4,2"/>
+                        <TextBox Grid.Row="3" Grid.Column="1" x:Name="ProjRepoUrl" Margin="0,2"/>
+                        <TextBlock Grid.Row="4" Grid.Column="0" Style="{StaticResource LabelText}" Text="Стадия:" Margin="0,4,4,2"/>
+                        <TextBox Grid.Row="4" Grid.Column="1" x:Name="ProjStage" Margin="0,2" Width="120" HorizontalAlignment="Left"/>
+                        <TextBlock Grid.Row="5" Grid.Column="0" Style="{StaticResource LabelText}" Text="След. действие:" Margin="0,4,4,2"/>
+                        <TextBox Grid.Row="5" Grid.Column="1" x:Name="ProjNextAction" Margin="0,2"/>
+                        <StackPanel Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="0,8,0,0">
+                            <Button Content="Добавить" Command="{Binding AddProjectCommand}" Padding="16,4" Margin="0,0,8,0"/>
+                            <Button Content="Удалить" Command="{Binding DeleteProjectCommand}" Padding="16,4" Margin="0,0,8,0"/>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Task Editor -->
+            <Border Style="{StaticResource CardPanel}" Margin="0,4">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource HeaderText}" Text="Задача (Task)"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource LabelText}" Text="ID:" Margin="0,4,4,2"/>
+                        <TextBox Grid.Row="0" Grid.Column="1" x:Name="TaskId" Width="200" HorizontalAlignment="Left" Margin="0,2"/>
+                        <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource LabelText}" Text="Project ID:" Margin="8,4,4,2"/>
+                        <TextBox Grid.Row="0" Grid.Column="3" x:Name="TaskProjectId" Margin="0,2"/>
+                        <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource LabelText}" Text="Название:" Margin="0,4,4,2"/>
+                        <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" x:Name="TaskTitle" Margin="0,2"/>
+                        <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource LabelText}" Text="Статус:" Margin="0,4,4,2"/>
+                        <ComboBox Grid.Row="2" Grid.Column="1" x:Name="TaskStatusCombo" Width="120" HorizontalAlignment="Left" Margin="0,2"
+                                  ItemsSource="{Binding TaskStatusTypes}" SelectedItem="{Binding SelectedTaskStatus}"/>
+                        <TextBlock Grid.Row="2" Grid.Column="2" Style="{StaticResource LabelText}" Text="Приоритет:" Margin="8,4,4,2"/>
+                        <ComboBox Grid.Row="2" Grid.Column="3" x:Name="TaskPriorityCombo" Margin="0,2"
+                                  ItemsSource="{Binding PriorityTypes}" SelectedItem="{Binding SelectedPriority}"/>
+                        <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" Orientation="Horizontal" Margin="0,8,0,0">
+                            <Button Content="Добавить" Command="{Binding AddTaskCommand}" Padding="16,4" Margin="0,0,8,0"/>
+                            <Button Content="Удалить" Command="{Binding DeleteTaskCommand}" Padding="16,4" Margin="0,0,8,0"/>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Search & Filter -->
+            <Border Style="{StaticResource CardPanel}" Margin="0,4">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource HeaderText}" Text="Поиск и фильтры"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Style="{StaticResource LabelText}" Text="Поиск:" Margin="0,4,4,2"/>
+                        <TextBox Grid.Column="1" x:Name="SearchBox" Margin="0,2" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"/>
+                        <Button Grid.Column="2" Content="Очистить" Command="{Binding ClearSearchCommand}" Padding="8,2" Margin="4,0"/>
+                        <TextBlock Grid.Column="3" Style="{StaticResource MonoText}" VerticalAlignment="Center" Margin="8,0,0,0"
+                                   Text="{Binding TreeCounts}"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Recovery Panel -->
+            <Border Style="{StaticResource CardPanel}" Margin="0,4">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource HeaderText}" Text="Восстановление (Generations)"/>
+                    <DockPanel>
+                        <StackPanel DockPanel.Dock="Right" Margin="8,0,0,0">
+                            <Button Content="Обновить" Command="{Binding RefreshGenerationsCommand}" Padding="8,4" Margin="0,0,0,4"/>
+                            <Button Content="Восстановить" Command="{Binding RestoreGenerationCommand}" Padding="8,4" Margin="0,0,0,4"/>
+                            <Button Content="Предпросмотр" Command="{Binding PreviewGenerationCommand}" Padding="8,4"/>
+                        </StackPanel>
+                        <ListBox x:Name="GenerationsList" ItemsSource="{Binding AvailableGenerations}"
+                                 MinHeight="100" MaxHeight="200" DisplayMemberPath="DisplayName"/>
+                    </DockPanel>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

@@ -1,12 +1,15 @@
 <Window x:Class="MATRIX.App.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MATRIX V2 — Центр управления NEO"
-        Height="800" Width="1400"
+        xmlns:views="clr-namespace:MATRIX.App.Views"
+        Title="MATRIX V3 — Центр управления NEO"
+        Height="900" Width="1600"
         WindowState="Maximized"
-        Background="#F5F5F5">
+        Background="#F5F5F5"
+        KeyDown="OnKeyDown">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
@@ -38,14 +41,23 @@
             </MenuItem>
         </Menu>
 
-        <!-- Main content: tree | graph | card -->
-        <Grid Grid.Row="1">
+        <!-- Search bar -->
+        <ToolBar Grid.Row="1" Background="White">
+            <TextBlock Text="Поиск:" VerticalAlignment="Center" Margin="4,0"/>
+            <TextBox Width="250" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button Content="✕" Command="{Binding ClearSearchCommand}" Padding="8,2"/>
+            <Separator/>
+            <TextBlock Text="{Binding TreeCounts}" VerticalAlignment="Center" Margin="8,0" FontFamily="Consolas"/>
+        </ToolBar>
+
+        <!-- Main content: tree | graph + forms | card -->
+        <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="300" MinWidth="200"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*" MinWidth="300"/>
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="350" MinWidth="250"/>
+                <ColumnDefinition Width="380" MinWidth="250"/>
             </Grid.ColumnDefinitions>
 
             <!-- Tree -->
@@ -64,28 +76,26 @@
 
             <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="#E0E0E0"/>
 
-            <!-- Graph area -->
+            <!-- Graph + Forms -->
             <DockPanel Grid.Column="2" Margin="4">
                 <TextBlock DockPanel.Dock="Top" Style="{StaticResource HeaderText}" Text="Граф связей"/>
-                <TextBlock DockPanel.Dock="Top" Text="{Binding SelectedNodeSummary}" Opacity="0.7" Margin="0,0,0,8"/>
-                <Border Background="White" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="6">
-                    <Canvas x:Name="GraphCanvas" ClipToBounds="True"/>
-                </Border>
+                <views:GraphCanvasView x:Name="GraphView" MinHeight="300" Margin="0,0,0,8"/>
             </DockPanel>
 
             <GridSplitter Grid.Column="3" Width="4" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="#E0E0E0"/>
 
-            <!-- Detail card -->
+            <!-- Detail card + edit forms -->
             <DockPanel Grid.Column="4" Margin="4">
                 <TextBlock DockPanel.Dock="Top" Style="{StaticResource HeaderText}" Text="Карточка"/>
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <Border Style="{StaticResource CardPanel}" DockPanel.Dock="Top" Margin="0,4">
                     <ContentControl Content="{Binding SelectedDetail}"/>
-                </ScrollViewer>
+                </Border>
+                <views:EditFormsView/>
             </DockPanel>
         </Grid>
 
         <!-- Events/errors panel -->
-        <Expander Grid.Row="2" Header="События и ошибки" IsExpanded="False" MaxHeight="200">
+        <Expander Grid.Row="3" Header="События и ошибки" IsExpanded="False" MaxHeight="200">
             <ListBox ItemsSource="{Binding Events}"/>
         </Expander>
     </Grid>

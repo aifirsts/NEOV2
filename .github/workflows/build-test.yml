@@ -1,31 +1,57 @@
-name: Build and Test
+name: Build, Test & Release V3
+
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ main ]
+    tags: [ 'v3*' ]
   pull_request:
     branches: [ main ]
+
 jobs:
   build:
     runs-on: windows-latest
+    permissions:
+      contents: write
     steps:
     - uses: actions/checkout@v4
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '8.0.x'
+
     - name: Restore
       run: dotnet restore MATRIX.sln
+
     - name: Build
       run: dotnet build MATRIX.sln --configuration Release
+
     - name: Test
       run: dotnet test MATRIX.sln --configuration Release --no-build
+
     - name: Python Tests
       run: python tools/test_matrix_v2.py
       shell: bash
+
     - name: Publish
-      run: dotnet publish src/MATRIX.App/MATRIX.App.csproj --configuration Release --runtime win-x64 --self-contained -o publish
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v4
+      run: dotnet publish src/MATRIX.App/MATRIX.App.csproj --configuration Release --runtime win-x64 --self-contained -p:PublishSingleFile=true -o publish
+
+    - name: Package
+      if: startsWith(github.ref, 'refs/tags/')
+      run: pwsh scripts/package.ps1 -Version ${{ github.ref_name }}
+
+    - name: Create Release
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: softprops/action-gh-release@v2
       with:
-        name: MATRIX-build
-        path: publish/
+        files: |
+          publish/MATRIX.exe
+          MATRIX-FINAL/VERSION.json
+          MATRIX-FINAL/SHA256SUMS.txt
+        prerelease: ${{ !startsWith(github.ref, 'refs/tags/v3.0.0') }}
+        body: |
+          MATRIX V3 Release
+          Version: ${{ github.ref_name }}
+          Status: Self-contained win-x64 EXE
+          CI: Build and Test PASSED
+          See: docs/RELEASE-CONTRACT.md
