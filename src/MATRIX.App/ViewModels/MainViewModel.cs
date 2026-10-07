@@ -110,6 +110,8 @@ namespace MATRIX.App.ViewModels
             }
         }
 
+        public WorkspaceSession Session => _session;
+
         // Commands
         public ICommand OpenCommand { get; }
         public ICommand SaveCommand { get; }
