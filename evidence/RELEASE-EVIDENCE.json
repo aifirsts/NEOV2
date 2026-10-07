@@ -4,7 +4,7 @@
   "buildTime": "2026-10-07T16:35:00Z",
   "sdk": "8.0.100",
   "rid": "win-x64",
-  "commit": null,
+  "commit": "30e678c1fb22f86dbde2a6e9607fad037c25f30d",
   "treeHash": null,
   "validationStatus": "PASS-F",
   "tests": {
@@ -15,5 +15,6 @@
   },
   "artifacts": [],
   "repoUrl": "https://github.com/aifirsts/NEOV2",
-  "releaseType": "prerelease"
+  "releaseType": "prerelease",
+  "releaseUrl": "https://github.com/aifirsts/NEOV2/releases/tag/v2.0.0-preview.1"
 }

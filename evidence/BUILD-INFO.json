@@ -5,5 +5,7 @@
   "sdk": "8.0.100 (target, not available in sandbox)",
   "rid": "win-x64",
   "validationStatus": "PASS-F",
-  "note": "Source tree complete. Windows build requires .NET 8 SDK on Windows."
+  "note": "Source tree complete. Windows build requires .NET 8 SDK on Windows.",
+  "commit": "30e678c1fb22f86dbde2a6e9607fad037c25f30d",
+  "treeHash": "30e678c"
 }
